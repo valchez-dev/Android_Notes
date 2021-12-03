@@ -22,10 +22,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
 
-        buildFeatures{
-            viewBinding true
-        }
+    buildFeatures{
+        viewBinding true
     }
 
     compileOptions {
@@ -46,6 +46,7 @@ dependencies {
 
     //room
     implementation 'androidx.room:room-runtime:2.3.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
 
     //viewmodel + livedata 2.4.0
