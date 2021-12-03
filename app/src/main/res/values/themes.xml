@@ -13,4 +13,18 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+
+
+    <!--Search bar text -->
+    <style name="ThemeOverlay.search" parent="Theme.Notes">
+
+        <item name="android:editTextColor">#FF6262</item>
+        <item name="android:textColorHint">#FF7171</item>
+        <item name="android:hint">@string/app_name</item>
+        <item name="hintEnabled">true</item>
+        <item name="hintTextColor">@color/white</item>
+
+
+    </style>
 </resources>

@@ -17,4 +17,5 @@
     <color name="color_red">#FF8A8A</color>
     <color name="color_purple">#DBB1FF</color>
     <color name="color_pink">#FCBFD9</color>
+    <color name="color_light_grey">#BDBDBD</color>
 </resources>
