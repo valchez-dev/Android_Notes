@@ -10,14 +10,17 @@ interface NoteDao {
     @Query("SELECT * FROM notes_table ORDER BY id DESC")
     fun getNotes(): LiveData<List<Note>>
 
-    @Query("SELECT * FROM notes_table WHERE id LIKE :noteId")
-    suspend fun updateNote(noteId: Int)
+    @Update
+    suspend fun updateNote(note: Note)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addNote(note: Note)
 
     @Delete
     suspend fun deleteNote(note: Note)
+
+    @Query("SELECT * FROM notes_table WHERE title LIKE :query OR body LIKE :query ORDER BY id DESC")
+    fun searchNote(query: String): LiveData<List<Note>>
 
 
 }

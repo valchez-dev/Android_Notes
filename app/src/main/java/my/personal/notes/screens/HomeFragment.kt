@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import my.personal.notes.R
-
 import my.personal.notes.databinding.FragmentHomeBinding
 
 
@@ -53,6 +52,4 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

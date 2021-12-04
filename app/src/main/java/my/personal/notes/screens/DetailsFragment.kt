@@ -1,15 +1,21 @@
 package my.personal.notes.screens
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import my.personal.notes.R
+import my.personal.notes.database.model.Note
+import my.personal.notes.database.viewmodel.NoteViewModel
 import my.personal.notes.databinding.FragmentDetailsBinding
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailsFragment : Fragment() {
 
@@ -34,7 +40,7 @@ class DetailsFragment : Fragment() {
 
         //save icon-button
         binding.btnDone.setOnClickListener {
-            saveNote()
+            Toast.makeText(context, "Note Saved", Toast.LENGTH_SHORT).show()
         }
 
         //back icon-button
@@ -42,34 +48,9 @@ class DetailsFragment : Fragment() {
             navController.navigate(R.id.action_detailsFragment_to_homeFragment)
         }
 
+        //color-picked btn to add
 
-    }
 
-
-    private fun saveNote() {
-
-        //title cant' be empty
-        if (binding.etTitle.text.isNullOrEmpty()) {
-            Toast.makeText(context, "Title can't be empty", Toast.LENGTH_SHORT).show()
-        }
-
-/*
-        //coroutined
-        launch {
-
-            var note = Note()
-
-            note.title = binding.etTitle.text.toString()
-            note.body = binding.etBody.text.toString()
-            note.date = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.ENGLISH).format(Date()).toString()
-
-            context?.let {
-                NoteDatabase.getDatabase(it).noteDao().addNote(note)
-            }
-
-        }
-        binding.etTitle.setText("")
-        binding.etBody.setText("")*/
     }
 
 
@@ -77,6 +58,4 @@ class DetailsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
-
 }

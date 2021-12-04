@@ -1,20 +1,21 @@
 package my.personal.notes.database.model
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "notes_table")
+@Parcelize
 data class Note(
-
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "body") val body: String?,
-    @ColumnInfo(name = "color") val color: String?,
+    @ColumnInfo(name = "color") val color: Int? = -1,
     @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "image_path") val imagePath: String?
-) {
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+): Parcelable {
+
 
     override fun toString(): String {
         return "ID: + $id + , + Title: $title + ; + " +
