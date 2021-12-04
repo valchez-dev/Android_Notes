@@ -1,4 +1,4 @@
-package my.personal.notes
+package my.personal.notes.screens
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import my.personal.notes.R
 import my.personal.notes.databinding.FragmentHomeBinding
 
 
@@ -29,10 +30,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Navigation to details fragment
         val navController: NavController = Navigation.findNavController(view)
-
         binding.fabHome.setOnClickListener {
-
             navController.navigate(R.id.action_homeFragment_to_detailsFragment)
         }
 
