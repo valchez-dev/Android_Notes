@@ -11,12 +11,8 @@ import my.personal.notes.R
 import my.personal.notes.database.model.Note
 
 class NoteRvAdapter(
-    val context: Context,
-    val noteClickInterface: NoteClickInterface
+    private val list: ArrayList<Note>
     ) : RecyclerView.Adapter<NoteRvAdapter.ViewHolder>()  {
-
-
-    private val allNotes = ArrayList<Note>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,27 +21,16 @@ class NoteRvAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.title.setText(allNotes.get(position).title)
-        holder.body.setText(allNotes.get(position).body)
-        holder.date.setText("Last changed: " + allNotes.get(position).date)
 
-        holder.itemView.setOnClickListener {
-            noteClickInterface.onNoteClick(allNotes.get(position))
-        }
+        holder.title.text = list[position].title
+        holder.body.text = list[position].body
+        holder.date.text = "Last changed: " + list[position].date
+
     }
 
     override fun getItemCount(): Int {
-        return allNotes.size
+        return list.size
     }
-
-
-    //update the list
-    fun updateList(newList: List<Note>){
-        allNotes.clear()
-        allNotes.addAll(newList)
-        notifyDataSetChanged()
-    }
-
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -55,13 +40,5 @@ class NoteRvAdapter(
     }
 
 
-}
-
-
-
-
-//clicked item
-interface NoteClickInterface {
-    fun onNoteClick(note:Note)
 }
 

@@ -27,7 +27,6 @@
 
         <argument
             android:name="Note"
-            android:defaultValue="null"
             app:nullable="true"
             app:argType="my.personal.notes.database.model.Note">
 

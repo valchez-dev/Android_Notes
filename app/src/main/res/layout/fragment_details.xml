@@ -50,6 +50,7 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/btn_color_picker"
         android:text="Pick the color"
         android:textSize="17sp"
         android:background="@drawable/search_shape"
@@ -62,7 +63,7 @@
 
    <LinearLayout
        android:id="@+id/color_picker"
-       android:visibility="visible"
+       android:visibility="gone"
        android:paddingHorizontal="10dp"
        android:orientation="horizontal"
        android:layout_width="match_parent"
@@ -152,7 +153,6 @@
         android:textStyle="bold"
         android:padding="15dp"
         android:layout_margin="10dp"
-        android:background="null"
         android:textSize="25sp"/>
 
     <EditText
@@ -161,7 +161,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Note..."
-        android:background="null"
         android:padding="15dp"
         android:textSize="20sp"
         android:layout_margin="10dp"/>
