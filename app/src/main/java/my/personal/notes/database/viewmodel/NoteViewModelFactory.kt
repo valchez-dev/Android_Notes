@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import my.personal.notes.database.repo.NoteRepository
 
-class NoteViewModelProviderFactory(
+class NoteViewModelFactory(
     private val repo: NoteRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
