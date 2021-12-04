@@ -8,9 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import my.personal.notes.R
+
 import my.personal.notes.databinding.FragmentHomeBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 /*
@@ -45,9 +44,6 @@ class HomeFragment : Fragment() {
         binding.fabHome.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_detailsFragment)
         }
-
-
-
 
 
     }

@@ -10,8 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import my.personal.notes.R
 import my.personal.notes.databinding.FragmentDetailsBinding
-import java.text.SimpleDateFormat
-import java.util.*
 
 class DetailsFragment : Fragment() {
 
@@ -34,11 +32,6 @@ class DetailsFragment : Fragment() {
         //Navigation
         val navController: NavController = Navigation.findNavController(view)
 
-        //Date
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-        val currentDate = sdf.format(Date());
-
-
         //save icon-button
         binding.btnDone.setOnClickListener {
             saveNote()
@@ -53,15 +46,30 @@ class DetailsFragment : Fragment() {
     }
 
 
-    private fun saveNote(){
+    private fun saveNote() {
 
         //title cant' be empty
-        if(binding.etTitle.text.isNullOrEmpty()){
+        if (binding.etTitle.text.isNullOrEmpty()) {
             Toast.makeText(context, "Title can't be empty", Toast.LENGTH_SHORT).show()
         }
 
+/*
+        //coroutined
+        launch {
 
+            var note = Note()
 
+            note.title = binding.etTitle.text.toString()
+            note.body = binding.etBody.text.toString()
+            note.date = SimpleDateFormat("dd/M/yyyy hh:mm:ss", Locale.ENGLISH).format(Date()).toString()
+
+            context?.let {
+                NoteDatabase.getDatabase(it).noteDao().addNote(note)
+            }
+
+        }
+        binding.etTitle.setText("")
+        binding.etBody.setText("")*/
     }
 
 

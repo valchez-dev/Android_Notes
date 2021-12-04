@@ -6,13 +6,15 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "notes_table")
 data class Note(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo(name = "title") var title: String,
-    @ColumnInfo(name = "body") var body: String?,
-    @ColumnInfo(name = "color") var color: String?,
-    @ColumnInfo(name = "date") var date: String,
-    @ColumnInfo(name = "image_path") var imagePath: String?,
+
+    @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "body") val body: String?,
+    @ColumnInfo(name = "color") val color: String?,
+    @ColumnInfo(name = "date") val date: String,
+    @ColumnInfo(name = "image_path") val imagePath: String?
 ) {
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
 
     override fun toString(): String {
         return "ID: + $id + , + Title: $title + ; + " +
