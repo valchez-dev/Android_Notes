@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Notes</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="random_medium_text">The new option would allow Tesla to deliver its
+        least expensive Model 3 cars more quickly,
+        at a penalty of just 10 miles on EPA range ratings</string>
+    <string name="random_big_text">The new option would allow Tesla to deliver its
+        least expensive Model 3 cars more quickly,
+        at a penalty of just 10 miles on EPA range ratings:
+        253 miles vs 263 miles—for the same sticker price.
+        In turn, it could presumably shift more of its traditional
+        battery packs to the hot-selling Model Y compact crossover.</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -9,13 +9,33 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="color_orange">#FFC988</color>
-    <color name="color_yellow">#FFE788</color>
-    <color name="color_blue">#88CEFF</color>
-    <color name="color_mint">#98F7D6</color>
-    <color name="color_green">#A3FA93</color>
-    <color name="color_red">#FF8A8A</color>
-    <color name="color_purple">#DBB1FF</color>
-    <color name="color_pink">#FCBFD9</color>
-    <color name="color_light_grey">#BDBDBD</color>
+    <!-- color palette -->
+    <color name="orange">#FFC988</color>
+    <color name="yellow">#FFE788</color>
+    <color name="blue">#88CEFF</color>
+    <color name="mint">#98F7D6</color>
+    <color name="green">#A3FA93</color>
+    <color name="red">#FF8A8A</color>
+    <color name="purple">#DBB1FF</color>
+    <color name="pink">#FCBFD9</color>
+    <color name="light_grey">#EFEFEF</color>
+    <color name="dark_grey">#BDBDBD</color>
+
+
+    <!-- Array of colours -->
+    <array name="color_picker">
+        <item>@color/white</item>
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+        <item>@color/blue</item>
+        <item>@color/mint</item>
+        <item>@color/green</item>
+        <item>@color/red</item>
+        <item>@color/purple</item>
+        <item>@color/pink</item>
+        <item>@color/light_grey</item>
+        <item>@color/dark_grey</item>
+    </array>
+
+
 </resources>

@@ -58,38 +58,8 @@ class DetailsFragment : Fragment() {
             navController.popBackStack()
         }
 
-        //color-picked btn
-        binding.btnColorPicker.setOnClickListener {
-            when (binding.colorPicker.visibility) {
-                View.VISIBLE -> binding.colorPicker.visibility = View.GONE
-                View.GONE -> binding.colorPicker.visibility = View.VISIBLE
-                else -> binding.colorPicker.visibility = View.GONE
-            }
-        }
-        binding.colorOne.setOnClickListener {
-            color = R.color.color_pink
-        }
-        binding.colorTwo.setOnClickListener {
-            color = R.color.color_red
-        }
-        binding.colorThree.setOnClickListener {
-            color = R.color.color_blue
-        }
-        binding.colorFour.setOnClickListener {
-            color = R.color.color_purple
-        }
-        binding.colorFive.setOnClickListener {
-            color = R.color.color_orange
-        }
-        binding.colorSix.setOnClickListener {
-            color = R.color.color_green
-        }
-        binding.colorSeven.setOnClickListener {
-            color = R.color.color_mint
-        }
-        binding.colorEight.setOnClickListener {
-            color = R.color.color_yellow
-        }
+
+
 
     }
 
@@ -99,14 +69,6 @@ class DetailsFragment : Fragment() {
         if(binding.etTitle.text.toString().isNullOrEmpty()){
             Toast.makeText(context, "Title required", Toast.LENGTH_SHORT).show()
         }
-
-        note = Note(
-            0,
-            binding.etTitle.text.toString(),
-            binding.etBody.text.toString(),
-            color,
-            currentDate
-        )
 
 
 
