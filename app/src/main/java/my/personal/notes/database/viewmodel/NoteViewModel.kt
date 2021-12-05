@@ -25,10 +25,7 @@ class NoteViewModel(
         repo.updateNote(note)
     }
 
-    fun searchNote(query: String): LiveData<List<Note>> {
-        return repo.searchNote(query)
-    }
-
+    fun searchNote(query: String): LiveData<List<Note>> = repo.searchNote(query)
     fun getAllNotes(): LiveData<List<Note>> = repo.getAllNotes()
 
 }

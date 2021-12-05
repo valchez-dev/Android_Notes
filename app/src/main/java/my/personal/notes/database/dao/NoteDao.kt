@@ -13,7 +13,7 @@ interface NoteDao {
     @Update
     suspend fun updateNote(note: Note)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addNote(note: Note)
 
     @Delete

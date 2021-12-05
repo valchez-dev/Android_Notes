@@ -9,11 +9,7 @@ class NoteViewModelFactory(
     private val repo: NoteRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
-
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return NoteViewModel(repo) as T
     }
-
-
-
 }
