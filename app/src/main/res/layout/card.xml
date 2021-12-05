@@ -1,52 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="7dp"
-    app:cardCornerRadius="15dp"
-    app:cardElevation="3dp">
+    android:layout_margin="5dp">
 
-    <LinearLayout
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F8F8F8"
-        android:orientation="vertical">
+        android:layout_margin="5dp"
 
-        <TextView
-            android:id="@+id/card_date"
-            android:text="Last changed 12/12/2021"
-            android:textStyle="italic"
-            android:textSize="12sp"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="5dp"
+        app:cardCornerRadius="13dp"
+        app:cardElevation="5dp">
 
-        <TextView
-            android:id="@+id/card_title"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:maxLines="1"
-            android:padding="4dp"
-            android:text="Title"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/card_body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:padding="4dp"
-            android:text="Description"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:padding="5dp">
 
 
-    </LinearLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/card_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/martel_sans_regular"
+                android:maxLines="1"
+                android:padding="4dp"
+                android:text="@string/random_title"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
-</androidx.cardview.widget.CardView>
+            <TextView
+                android:id="@+id/card_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_title"
+                android:layout_margin="4dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/martel_sans_regular"
+                android:maxLines="5"
+                android:padding="4dp"
+                android:text="@string/text_description_placeholder"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/card_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_body"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="4dp"
+                android:drawableStart="@drawable/ic_time"
+
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/martel_sans_light"
+                android:gravity="center"
+                android:padding="4dp"
+
+                android:text="@string/date_placeholder"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                app:drawableTint="@color/black" />
+
+        </RelativeLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</RelativeLayout>

@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/bottom_sheet_line.xml" value="0.18425925925925926" />
         <entry key="app/src/main/res/drawable/bottom_sheet_rounded.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/color_picker.xml" value="0.2037037037037037" />
         <entry key="app/src/main/res/drawable/color_picker_eight.xml" value="0.20462962962962963" />
@@ -16,10 +17,11 @@
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.17407407407407408" />
         <entry key="app/src/main/res/drawable/search_shape.xml" value="0.17407407407407408" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/card.xml" value="0.3086053412462908" />
+        <entry key="app/src/main/res/layout/bottom_sheet.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>
     </option>

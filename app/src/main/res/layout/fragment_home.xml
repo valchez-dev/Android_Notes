@@ -104,7 +104,7 @@
             android:id="@+id/fab_home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/orange"
             android:contentDescription="@string/fab_description"
             android:src="@drawable/ic_add"
             app:fabSize="normal"

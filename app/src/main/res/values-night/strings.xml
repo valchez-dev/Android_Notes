@@ -4,4 +4,12 @@
     <string name="search_hint">Search...</string>
     <string name="text_placeholder">Let\'s create a Note!</string>
     <string name="fab_description">add_note_button</string>
+    <string name="pick_color">Pick the color:</string>
+    <string name="random_title">Note Title</string>
+    <string name="text_description_placeholder">This is the description of my note</string>
+    <string name="date_placeholder">Last edited: 15:33 12/11/2021</string>
+    <string name="et_title_hint">Title...</string>
+    <string name="color_picker_description">Color Picker Button</string>
+    <string name="back_button_image">Back Button Image</string>
+    <string name="save_image_button">Save Image-Button</string>
 </resources>

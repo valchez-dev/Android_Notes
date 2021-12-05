@@ -15,21 +15,13 @@ import my.personal.notes.databinding.FragmentHomeBinding
 import my.personal.notes.recyclerview.NoteRvAdapter
 
 
-/*
-* Title visibility => gone after few sec
-*
-*
-*
-*
-*/
-
 class HomeFragment : Fragment() {
 
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: NoteViewModel by activityViewModels()
+
 
 
     override fun onCreateView(
@@ -46,8 +38,6 @@ class HomeFragment : Fragment() {
 
         // Navigation to details fragment
         val navController: NavController = Navigation.findNavController(view)
-
-       val rv: NoteRvAdapter
 
 
 

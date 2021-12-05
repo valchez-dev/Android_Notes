@@ -23,7 +23,7 @@
 
 
     <!-- Array of colours -->
-    <array name="color_picker">
+    <array name="colors_array">
         <item>@color/white</item>
         <item>@color/orange</item>
         <item>@color/yellow</item>
