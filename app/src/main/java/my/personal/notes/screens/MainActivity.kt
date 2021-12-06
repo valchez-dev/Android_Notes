@@ -12,24 +12,28 @@ import my.personal.notes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-
-    lateinit var viewModel: NoteViewModel
     private lateinit var binding: ActivityMainBinding
-
+    lateinit var activityViewModel: NoteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide()
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        //creating the instance of db
         try{
-            setContentView(binding.root)
             val repo = NoteRepository(NoteDatabase(this))
             val factory = NoteViewModelFactory(repo)
-            viewModel = ViewModelProvider(this,factory)[NoteViewModel::class.java]
-
+            activityViewModel = ViewModelProvider(this,factory)[NoteViewModel::class.java]
         }catch (e: Exception){
-            Log.d("TAG", "ERROR")
+            Log.d("MainActivity", "Error with accessing the ViewModel")
         }
+
+
+
+
+
 
     }
 }
