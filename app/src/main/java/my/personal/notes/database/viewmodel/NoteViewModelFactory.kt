@@ -7,7 +7,9 @@ import my.personal.notes.database.repo.NoteRepository
 
 class NoteViewModelFactory(
     private val repo: NoteRepository
-) : ViewModelProvider.NewInstanceFactory() {
+) : ViewModelProvider.Factory {
+
+    //TODO: or .NewInstanceFactory ?
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return NoteViewModel(repo) as T

@@ -27,8 +27,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: NoteViewModel by activityViewModels()
-
+    //private val viewModel: NoteViewModel by activityViewModels()
+    private lateinit var viewModel: NoteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,14 +55,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         //access to main activity
         val activity = activity as MainActivity
+        viewModel = activity.viewModel
+
 
         //navigation
         val navController: NavController = Navigation.findNavController(view)
 
         CoroutineScope(Dispatchers.Main).launch {
             delay(10)
-            activity.window.statusBarColor = Color.WHITE
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            activity.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             activity.window.statusBarColor = Color.parseColor("#9E9D9D")
         }
 

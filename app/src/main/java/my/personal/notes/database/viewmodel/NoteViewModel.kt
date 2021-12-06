@@ -5,12 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import my.personal.notes.database.db.NoteDatabase
 import my.personal.notes.database.model.Note
 import my.personal.notes.database.repo.NoteRepository
 
 class NoteViewModel(
     private val repo: NoteRepository
 ) : ViewModel() {
+
+
 
 
     fun saveNote(note: Note) = viewModelScope.launch(Dispatchers.IO) {

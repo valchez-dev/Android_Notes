@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import my.personal.notes.database.dao.NoteDao
 import my.personal.notes.database.model.Note
 
-@Database(entities = [Note::class], version = 1, exportSchema = false)
+@Database(entities = [Note::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
 
     //get dao
@@ -23,7 +23,7 @@ abstract class NoteDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 NoteDatabase::class.java,
-                "notes.db"
+                "notes_database"
             ).build()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
@@ -32,4 +32,30 @@ abstract class NoteDatabase : RoomDatabase() {
             }
         }
     }
+
+
+
+
+
 }
+
+
+
+/*
+    companion object {
+        private var INSTANCE: NoteDatabase? = null
+        fun getDatabase(context: Context): NoteDatabase {
+            if (INSTANCE == null) {
+                synchronized(this) {
+                    INSTANCE =
+                        Room.databaseBuilder(context,NoteDatabase::class.java,
+                            "notes_database")
+                            .build()
+                }
+            }
+            return INSTANCE!!
+        }
+    }
+
+
+ */
