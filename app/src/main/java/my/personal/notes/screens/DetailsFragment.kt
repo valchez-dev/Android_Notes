@@ -135,10 +135,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.detailsBtnSave.setOnClickListener {
             saveNote()
         }
-
-
-
-
     }
 
 

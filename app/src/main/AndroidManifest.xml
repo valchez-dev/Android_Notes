@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".di.NoteApp"
         android:icon="@mipmap/icon_note_big"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_note_big"
