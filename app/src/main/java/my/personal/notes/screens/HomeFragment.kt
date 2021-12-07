@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.transition.MaterialElevationScale
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -21,7 +22,7 @@ import my.personal.notes.database.viewmodel.NoteViewModel
 import my.personal.notes.databinding.FragmentHomeBinding
 import my.personal.notes.recyclerview.NoteRvAdapter
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private var _binding: FragmentHomeBinding? = null

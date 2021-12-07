@@ -15,6 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialContainerTransform
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import my.personal.notes.R
@@ -25,14 +26,15 @@ import my.personal.notes.databinding.FragmentDetailsBinding
 import java.text.SimpleDateFormat
 import java.util.*
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
-    //private val viewModel: NoteViewModel by activityViewModels()
-    private lateinit var viewModel: NoteViewModel
+    private val viewModel: NoteViewModel by activityViewModels()
+    //private lateinit var viewModel: NoteViewModel
 
 
     private val job = CoroutineScope(Dispatchers.Main)
@@ -75,7 +77,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         //Access to activity
         val activity = activity as MainActivity
-        viewModel = activity.viewModel
+        //viewModel = activity.viewModel
 
 
         //back button
@@ -153,8 +155,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     viewModel.saveNote(
                         Note(
                             0,
-                            binding.detailsEtTitle.toString(),
-                            binding.detailsEtBody.toString(),
+                            binding.detailsEtTitle.text.toString(),
+                            binding.detailsEtBody.text.toString(),
                             currentDate,
                             color
                         )
