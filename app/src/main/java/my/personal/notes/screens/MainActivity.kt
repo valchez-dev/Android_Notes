@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         //creating the instance of db
-        setupViewModel()
+        //setupViewModel()
 
 
     }
