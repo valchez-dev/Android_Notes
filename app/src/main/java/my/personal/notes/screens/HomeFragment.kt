@@ -9,14 +9,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ListAdapter
+import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +31,8 @@ import my.personal.notes.R
 import my.personal.notes.adapter.NoteAdapter
 import my.personal.notes.database.viewmodel.NoteViewModel
 import my.personal.notes.databinding.FragmentHomeBinding
+import my.personal.notes.utils.SwipeToDelete
+import my.personal.notes.utils.hideKeyboard
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
@@ -37,8 +43,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val viewModel: NoteViewModel by activityViewModels()
     private lateinit var listAdapter: NoteAdapter
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,60 +90,116 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         //recycler view initializer
         showRecyclerView()
+        swipeToDelete(binding.rvHome)
 
 
         //search bar listener
-        binding.homeSearch.addTextChangedListener( object : TextWatcher {
+        binding.homeSearch.addTextChangedListener(object : TextWatcher {
 
+            //removing no-notes placeholder while typing
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
+                binding.homeTextPlaceholder.isVisible = false
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.toString().isNotEmpty()){
+                if (s.toString().isNotEmpty()) {
                     val input = s.toString()
                     val query = "%$input%"
-                    if(query.isNotEmpty()){
-                        viewModel.searchNote(query).observe(viewLifecycleOwner){
-
+                    if (query.isNotEmpty()) {
+                        viewModel.searchNote(query).observe(viewLifecycleOwner) {
+                            listAdapter.submitList(it)
                         }
-                    }else{
+                    } else {
                         observerDataChanges()
                     }
-                }else{
+                } else {
                     observerDataChanges()
                 }
             }
 
-            //not gonna use it
+            //im not gonna use it
             override fun afterTextChanged(s: Editable?) {}
         })
 
 
+        //remove the keyboard when user is done with the search bar
+        binding.homeSearch.setOnEditorActionListener { myView, actionId, _ ->
 
-
-
-    }
-
-
-
-
-
-
-    private fun observerDataChanges() {
-        viewModel.getAllNotes().observe(viewLifecycleOwner){ list ->
-            binding.homeTextPlaceholder.isVisible = list.isEmpty()
-            listAdapter.submitList(list)
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                myView.clearFocus()
+                requireView().hideKeyboard()
+            }
+            return@setOnEditorActionListener true
         }
+
+
+    }
+
+    private fun swipeToDelete(recyclerView: RecyclerView) {
+
+        val swipeToDeleteCallback = object : SwipeToDelete() {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val note = listAdapter.currentList[position]
+
+                viewModel.deleteNote(note)
+
+                binding.homeSearch.apply {
+                    hideKeyboard()
+                    clearFocus()
+                }
+
+                //update the list
+                if (binding.homeSearch.text.isEmpty()) {
+                    observerDataChanges()
+                }
+
+                //undo the changes by snackbar
+                val snackbar = Snackbar.make(
+                    requireView(), "Note removed", Snackbar.LENGTH_LONG
+                )
+                    .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                        }
+
+                        override fun onShown(transientBottomBar: Snackbar?) {
+
+                            transientBottomBar?.setAction("UNDO") {
+                                viewModel.saveNote(note)
+                                binding.homeTextPlaceholder.isVisible = false
+                            }
+                            super.onShown(transientBottomBar)
+                        }
+                    }).apply {
+                        animationMode = Snackbar.ANIMATION_MODE_FADE
+                        setAnchorView(R.id.fab_home)
+                    }
+
+                snackbar.setActionTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.orange
+                    )
+                )
+                snackbar.show()
+            }
+        }
+
+        //attach itemTouchHelper to listView
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 
 
-    private fun showRecyclerView(){
+    private fun showRecyclerView() {
 
         //portrait vs landscape
-        when(resources.configuration.orientation){
+        when (resources.configuration.orientation) {
             Configuration.ORIENTATION_PORTRAIT -> setupRecyclerView(2) //two-column mode
-            Configuration.ORIENTATION_LANDSCAPE -> setupRecyclerView(3) //single-column mode
+            Configuration.ORIENTATION_LANDSCAPE -> setupRecyclerView(3) //three-column mode
+            else -> setupRecyclerView(2)
         }
     }
 
@@ -147,7 +207,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
         binding.rvHome.apply {
-            layoutManager = StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager =
+                StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
             listAdapter = NoteAdapter()
             adapter = listAdapter
@@ -159,9 +220,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
         observerDataChanges()
-
-
     }
+
+    private fun observerDataChanges() {
+        viewModel.getAllNotes().observe(viewLifecycleOwner) { list ->
+            binding.homeTextPlaceholder.isVisible = list.isEmpty()
+            listAdapter.submitList(list)
+        }
+    }
+
 
 
     override fun onDestroyView() {
