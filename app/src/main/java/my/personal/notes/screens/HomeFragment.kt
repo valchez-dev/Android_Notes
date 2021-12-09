@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.core.widget.addTextChangedListener
+import android.widget.ListAdapter
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -22,9 +24,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import my.personal.notes.R
+import my.personal.notes.adapter.NoteAdapter
 import my.personal.notes.database.viewmodel.NoteViewModel
 import my.personal.notes.databinding.FragmentHomeBinding
-import my.personal.notes.recyclerview.NoteRvAdapter
+import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -32,8 +35,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    //private val viewModel: NoteViewModel by activityViewModels()
-    private lateinit var viewModel: NoteViewModel
+    private val viewModel: NoteViewModel by activityViewModels()
+    private lateinit var listAdapter: NoteAdapter
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +66,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         //access to main activity
         val activity = activity as MainActivity
-        viewModel = activity.viewModel
 
         //navigation
         val navController: NavController = Navigation.findNavController(view)
@@ -122,7 +127,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun observerDataChanges() {
-        TODO("Not yet implemented")
+        viewModel.getAllNotes().observe(viewLifecycleOwner){ list ->
+            binding.homeTextPlaceholder.isVisible = list.isEmpty()
+            listAdapter.submitList(list)
+        }
     }
 
 
@@ -137,9 +145,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setupRecyclerView(columnCount: Int) {
 
-        when(columnCount){
 
+        binding.rvHome.apply {
+            layoutManager = StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL)
+            setHasFixedSize(true)
+            listAdapter = NoteAdapter()
+            adapter = listAdapter
+            postponeEnterTransition(300L, TimeUnit.MILLISECONDS)
+            viewTreeObserver.addOnPreDrawListener {
+                startPostponedEnterTransition()
+                true
+            }
         }
+
+        observerDataChanges()
+
 
     }
 

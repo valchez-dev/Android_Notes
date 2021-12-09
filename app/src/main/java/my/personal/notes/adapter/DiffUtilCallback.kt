@@ -5,11 +5,14 @@ import my.personal.notes.database.model.Note
 
 class DiffUtilCallback : DiffUtil.ItemCallback<Note>() {
 
+
     override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.id==newItem.id
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.id==newItem.id
+        return oldItem.id == newItem.id
     }
+
+
 }

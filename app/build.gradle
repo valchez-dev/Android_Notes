@@ -82,9 +82,9 @@ dependencies {
     implementation 'com.thebluealliance:spectrum:0.7.1'
 
     //checkboxes, dots, in notes
-    implementation"io.noties.markwon:core:4.6.2"
-    implementation"io.noties.markwon:ext-strikethrough:4.6.2"
-    implementation"io.noties.markwon:ext-tasklist:4.6.2"
+//    implementation"io.noties.markwon:core:4.6.2"
+//    implementation"io.noties.markwon:ext-strikethrough:4.6.2"
+//    implementation"io.noties.markwon:ext-tasklist:4.6.2"
 
     //fragment
     debugImplementation "androidx.fragment:fragment-testing:1.4.0"
