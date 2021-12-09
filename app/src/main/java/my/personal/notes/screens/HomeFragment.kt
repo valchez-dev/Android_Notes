@@ -1,11 +1,15 @@
 package my.personal.notes.screens
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -58,7 +62,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val activity = activity as MainActivity
         viewModel = activity.viewModel
 
-
         //navigation
         val navController: NavController = Navigation.findNavController(view)
 
@@ -76,6 +79,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
+        //recycler view initializer
+        showRecyclerView()
+
+
+        //search bar listener
+        binding.homeSearch.addTextChangedListener( object : TextWatcher {
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString().isNotEmpty()){
+                    val input = s.toString()
+                    val query = "%$input%"
+                    if(query.isNotEmpty()){
+                        viewModel.searchNote(query).observe(viewLifecycleOwner){
+
+                        }
+                    }else{
+                        observerDataChanges()
+                    }
+                }else{
+                    observerDataChanges()
+                }
+            }
+
+            //not gonna use it
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+
+
 
 
     }
@@ -84,6 +120,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
 
+
+    private fun observerDataChanges() {
+        TODO("Not yet implemented")
+    }
+
+
+    private fun showRecyclerView(){
+
+        //portrait vs landscape
+        when(resources.configuration.orientation){
+            Configuration.ORIENTATION_PORTRAIT -> setupRecyclerView(2) //two-column mode
+            Configuration.ORIENTATION_LANDSCAPE -> setupRecyclerView(3) //single-column mode
+        }
+    }
+
+    private fun setupRecyclerView(columnCount: Int) {
+
+        when(columnCount){
+
+        }
+
+    }
 
 
     override fun onDestroyView() {
