@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
@@ -18,11 +19,14 @@ import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import my.personal.notes.R
 import my.personal.notes.database.model.Note
 import my.personal.notes.database.viewmodel.NoteViewModel
 import my.personal.notes.databinding.BottomSheetBinding
 import my.personal.notes.databinding.FragmentDetailsBinding
+import my.personal.notes.utils.hideKeyboard
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,17 +38,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var navController: NavController
     private val viewModel: NoteViewModel by activityViewModels()
-    //private lateinit var viewModel: NoteViewModel
-
-
-    private val job = CoroutineScope(Dispatchers.Main)
     private val args: DetailsFragmentArgs by navArgs()
 
     private var note: Note? = null
-    private lateinit var result: String
     private var color = -1
     private val currentDate =
-        SimpleDateFormat.getInstance().format(Date()) //TODO: or getDateInstance()?
+        SimpleDateFormat.getInstance().format(Date()) //or getDateInstance()?
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,12 +76,17 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         //Access to activity
         val activity = activity as MainActivity
-        //viewModel = activity.viewModel
 
+
+        //navigation transition name
+        ViewCompat.setTransitionName(
+            binding.detailsFragment,
+            "list_${args.note?.id}"
+        )
 
         //back button
         binding.detailsBtnBack.setOnClickListener {
-            //requireView().hideKeyboard()
+            requireView().hideKeyboard()
             navController.popBackStack()
         }
 
@@ -103,7 +107,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 R.layout.bottom_sheet,
                 null
             )
-            with(bottomSheetDialog){
+            with(bottomSheetDialog) {
                 setContentView(bottomSheetView)
                 show()
             }
@@ -135,7 +139,36 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         //save button
         binding.detailsBtnSave.setOnClickListener {
+            requireView().hideKeyboard()
             saveNote()
+        }
+
+
+
+        //existing data
+        setUpExistingNote()
+
+    }
+
+
+    private fun setUpExistingNote(){
+
+        val note = args.note
+
+        if (note == null){
+            binding.detailsDate.text = "Edited: " + currentDate
+        }else{
+
+            binding.detailsEtTitle.setText(note.title)
+            binding.detailsEtBody.setText(note.body)
+            binding.detailsDate.setText("Edited: " + currentDate)
+            color = note.color
+
+            binding.apply {
+                    detailsFragment.setBackgroundColor(color)
+                    detailsToolbar.setBackgroundColor(color)
+            }
+            activity?.window?.statusBarColor = note.color
         }
     }
 
@@ -146,6 +179,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         if (binding.detailsEtTitle.text.toString().isEmpty()) {
             Toast.makeText(context, "Title required", Toast.LENGTH_SHORT).show()
         } else {
+
             note = args.note
 
             //If null -> create
@@ -165,12 +199,31 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 }
 
                 else -> {
-                    //update the note
+                    updateNote()
+                    navController.popBackStack()
                 }
             }
 
 
         }
+    }
+
+
+    private fun updateNote() {
+
+        if (note != null) {
+            viewModel.updateNote(
+                Note(
+                    note!!.id,
+                    binding.detailsEtTitle.text.toString(),
+                    binding.detailsEtBody.text.toString(),
+                    currentDate,
+                    color
+                )
+            )
+        }
+
+
     }
 
 

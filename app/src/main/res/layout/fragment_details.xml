@@ -23,15 +23,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+
                 android:layout_margin="5dp"
+                android:padding="10dp"
 
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-
                 android:contentDescription="@string/back_button_image"
-
                 android:focusable="true"
-                android:padding="5dp"
+
                 android:src="@drawable/ic_back"
                 app:tint="@color/black" />
 
@@ -62,13 +62,12 @@
                 android:layout_centerVertical="true"
 
                 android:layout_margin="5dp"
+                android:padding="10dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
 
                 android:clickable="true"
-
                 android:contentDescription="@string/save_image_button"
                 android:focusable="true"
-                android:padding="5dp"
                 android:src="@drawable/ic_save"
                 app:tint="@color/black" />
 
@@ -122,7 +121,6 @@
 
 
             </androidx.core.widget.NestedScrollView>
-
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/details_btn_color_picker"
