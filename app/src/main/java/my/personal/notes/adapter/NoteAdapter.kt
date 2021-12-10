@@ -19,15 +19,11 @@ import my.personal.notes.utils.hideKeyboard
 class NoteAdapter : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffUtilCallback()) {
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
 
         val view = LayoutInflater.from(parent.context).inflate(R.layout.card, parent, false)
-
         return NotesViewHolder(view)
     }
-
-
 
 
 
@@ -48,12 +44,12 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffUtilCallb
                 card.setOnClickListener{
                     val action = HomeFragmentDirections.actionHomeFragmentToDetailsFragment().setNote(note)
                     val extras = FragmentNavigatorExtras(itemView to "list_${note.id}")
+
                     it.hideKeyboard()
 
                     Navigation.findNavController(it).navigate(action,extras)
                 }
             }
-
         }
     }
 
@@ -66,6 +62,5 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NotesViewHolder>(DiffUtilCallb
         val date: MaterialTextView = binding.cardDate
         val card: MaterialCardView = binding.card
     }
-
 }
 

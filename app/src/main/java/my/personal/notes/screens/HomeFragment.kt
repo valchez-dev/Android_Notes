@@ -38,6 +38,7 @@ import java.util.concurrent.TimeUnit
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -45,6 +46,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var listAdapter: NoteAdapter
 
 
+
+    //animations
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    //binding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -65,10 +69,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //access to main activity
+        //access to activity
         val activity = activity as MainActivity
 
         //navigation
@@ -83,12 +88,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         //add-note button clicked
         binding.fabHome.setOnClickListener {
-            binding.appBarLayout.visibility = View.INVISIBLE
             navController.navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment())
         }
 
-
-        //recycler view initializer
+        //RecyclerView
         showRecyclerView()
         swipeToDelete(binding.rvHome)
 
@@ -131,8 +134,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             return@setOnEditorActionListener true
         }
-
-
     }
 
     private fun swipeToDelete(recyclerView: RecyclerView) {
@@ -205,29 +206,33 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setupRecyclerView(columnCount: Int) {
 
-
         binding.rvHome.apply {
             layoutManager =
                 StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL)
             setHasFixedSize(true)
             listAdapter = NoteAdapter()
             adapter = listAdapter
+
+            //return to listview animation when note is closed
             postponeEnterTransition(300L, TimeUnit.MILLISECONDS)
             viewTreeObserver.addOnPreDrawListener {
                 startPostponedEnterTransition()
                 true
             }
         }
-
         observerDataChanges()
     }
 
     private fun observerDataChanges() {
         viewModel.getAllNotes().observe(viewLifecycleOwner) { list ->
+            binding.homeTitle.isVisible = list.isEmpty()
             binding.homeTextPlaceholder.isVisible = list.isEmpty()
             listAdapter.submitList(list)
         }
     }
+
+
+
 
 
 

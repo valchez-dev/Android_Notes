@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,10 +16,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import my.personal.notes.R
 import my.personal.notes.database.model.Note
 import my.personal.notes.database.viewmodel.NoteViewModel
@@ -33,6 +28,7 @@ import java.util.*
 @AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
+
     private var _binding: FragmentDetailsBinding? = null
     private val binding get() = _binding!!
 
@@ -42,15 +38,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private var note: Note? = null
     private var color = -1
-    private val currentDate =
-        SimpleDateFormat.getInstance().format(Date()) //or getDateInstance()?
+    private val currentDateTime = SimpleDateFormat("dd/MM/yyyy, HH:mm:ss", Locale.getDefault()).format(Date());
 
 
+
+    //opening and closing with animations
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val animation = MaterialContainerTransform().apply {
-            drawingViewId = R.id.nav_host_fragment_container //TODO: not sure which to set
+            drawingViewId = R.id.nav_host_fragment_container  //not sure which to set
             scrimColor = Color.TRANSPARENT
             duration = 300L
         }
@@ -59,6 +56,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         sharedElementReturnTransition = animation
     }
 
+    //binding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,26 +72,29 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         //Navigation
         navController = Navigation.findNavController(view)
 
-        //Access to activity
-        val activity = activity as MainActivity
-
-
         //navigation transition name
         ViewCompat.setTransitionName(
             binding.detailsFragment,
             "list_${args.note?.id}"
         )
 
-        //back button
+        //Access to Activity
+        val activity = activity as MainActivity
+
+        //basic date title = current date
+        binding.detailsDate.text = currentDateTime
+
+        //If note already exists
+        setUpExistingNote()
+
+
+
+
+        //navigate-back button
         binding.detailsBtnBack.setOnClickListener {
             requireView().hideKeyboard()
             navController.popBackStack()
         }
-
-
-        //date showing title
-        binding.detailsDate.setText("Edited: " + currentDate)
-
 
         //color picker btn
         binding.detailsBtnColorPicker.setOnClickListener {
@@ -136,37 +137,29 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             }
         }
 
-
         //save button
         binding.detailsBtnSave.setOnClickListener {
             requireView().hideKeyboard()
             saveNote()
         }
-
-
-
-        //existing data
-        setUpExistingNote()
-
     }
 
 
-    private fun setUpExistingNote(){
+    private fun setUpExistingNote() {
 
+        //received note-data
         val note = args.note
 
-        if (note == null){
-            binding.detailsDate.text = "Edited: " + currentDate
-        }else{
-
-            binding.detailsEtTitle.setText(note.title)
-            binding.detailsEtBody.setText(note.body)
-            binding.detailsDate.setText("Edited: " + currentDate)
-            color = note.color
+        if (note == null) {
+            binding.detailsDate.text = currentDateTime
+        } else {
 
             binding.apply {
-                    detailsFragment.setBackgroundColor(color)
-                    detailsToolbar.setBackgroundColor(color)
+                detailsEtTitle.setText(note.title)
+                detailsEtBody.setText(note.body)
+                detailsDate.text = currentDateTime
+                detailsFragment.setBackgroundColor(note.color)
+                detailsToolbar.setBackgroundColor(note.color)
             }
             activity?.window?.statusBarColor = note.color
         }
@@ -175,15 +168,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private fun saveNote() {
 
-        //Title can not be empty
+        //Title can't be empty
         if (binding.detailsEtTitle.text.toString().isEmpty()) {
-            Toast.makeText(context, "Title required", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Title required", Toast.LENGTH_LONG).show()
         } else {
 
             note = args.note
 
-            //If null -> create
-            //If exists -> update
+            //null -> create / exists -> update
             when (note) {
                 null -> {
                     viewModel.saveNote(
@@ -191,7 +183,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                             0,
                             binding.detailsEtTitle.text.toString(),
                             binding.detailsEtBody.text.toString(),
-                            currentDate,
+                            currentDateTime,
                             color
                         )
                     )
@@ -203,8 +195,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     navController.popBackStack()
                 }
             }
-
-
         }
     }
 
@@ -212,19 +202,22 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun updateNote() {
 
         if (note != null) {
+
             viewModel.updateNote(
                 Note(
                     note!!.id,
                     binding.detailsEtTitle.text.toString(),
                     binding.detailsEtBody.text.toString(),
-                    currentDate,
+                    currentDateTime,
                     color
                 )
             )
         }
-
-
     }
+
+
+
+
 
 
     override fun onDestroyView() {
