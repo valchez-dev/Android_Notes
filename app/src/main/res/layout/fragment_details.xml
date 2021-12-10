@@ -16,7 +16,8 @@
         <RelativeLayout
             android:id="@+id/details_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:id="@+id/details_btn_back"
@@ -25,13 +26,12 @@
                 android:layout_centerVertical="true"
 
                 android:layout_margin="5dp"
-                android:padding="10dp"
-
                 android:background="?attr/selectableItemBackgroundBorderless"
+
                 android:clickable="true"
                 android:contentDescription="@string/back_button_image"
                 android:focusable="true"
-
+                android:padding="5dp"
                 android:src="@drawable/ic_back"
                 app:tint="@color/black" />
 
@@ -62,12 +62,12 @@
                 android:layout_centerVertical="true"
 
                 android:layout_margin="5dp"
-                android:padding="10dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
 
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:contentDescription="@string/save_image_button"
                 android:focusable="true"
+                android:padding="5dp"
                 android:src="@drawable/ic_save"
                 app:tint="@color/black" />
 
@@ -78,7 +78,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/details_toolbar">
-
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/details_scrollView"

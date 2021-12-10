@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import androidx.core.content.ContextCompat
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -225,8 +226,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun observerDataChanges() {
         viewModel.getAllNotes().observe(viewLifecycleOwner) { list ->
-            binding.homeTitle.isVisible = list.isEmpty()
             binding.homeTextPlaceholder.isVisible = list.isEmpty()
+            binding.homeSearch.isInvisible = list.isEmpty()
             listAdapter.submitList(list)
         }
     }
